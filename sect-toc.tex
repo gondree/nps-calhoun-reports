@@ -1,0 +1,54 @@
+% !TEX root = report.tex
+
+%
+% TOC
+%
+%% Styling the TOC
+%% http://hstuart.dk/2007/05/26/styling-the-table-of-contents/
+%%
+%% for Fancy Header documentation:
+%% ftp://www.ctan.org/pub/tex-archive/macros/latex2e/contrib/fancyhdr/fancyhdr.pdf
+
+\chapter*{\sc Table of Contents}
+\renewcommand{\leftmark}{TABLE OF CONTENTS} % add manually to \leftmark
+\def\contentsname{}          % don't need a name, since its in the chapter name
+\vspace{-1in}                % remove some of the space after the chapter heading
+
+
+\setcounter{tocdepth}{3}
+
+%
+% NPS report uses 'titletoc' package
+% http://www.ctex.org/documents/packages/layout/titlesec.pdf
+%
+  \titlecontents{part}
+  	        [25pt]                                    % left
+	        {\vspace{-1.2ex}\bfseries\sc\centering}   % above
+	        {\contentslabel{2.3em}}                   % before with label
+	        {\hspace*{-2.3em}}                        % before without label
+	        {}                                        % filler and page
+
+  \titlecontents{chapter}
+  	        [25pt]                                    % left
+	        {\vspace{-1.2ex}\bfseries}                % above
+	        {\contentslabel{2.3em}}                   % before with label
+	        {\hspace*{-2.3em}}                        % before without label
+	        {}                                        % filler and page
+
+  \titlecontents{section}
+  	        [25pt]                                    % left
+	        {\vspace{-1.8ex}}                         % above
+	        {\contentslabel{2.3em}}                   % before with label
+	        {\hspace*{-2.3em}}                        % before without label
+	        {\titlerule*[5pt]{.}\contentspage}        % filler and page
+
+
+% generate first and other TOC pages
+\tableofcontents
+\cleardoublepage
+
+
+% everything after TOC will use chapter names for left mark
+\makeatletter
+\renewcommand{\chaptermark}[1]{\markleft{#1}}
+\makeatother

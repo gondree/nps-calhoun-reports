@@ -1,0 +1,80 @@
+% !TEX TS-program = make
+
+%
+% report.tex: The source code for the NPS report
+%
+\documentclass[report,singlespace,times,makeidx]{npsreport}
+
+%
+% Packages we are using
+%
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{url}
+\usepackage{pdfpages}
+% Hyperref adds PDF metadata
+% TAKE THIS OUT if it causes problems.
+% Specifically, remove if you are using xelatex
+\usepackage[pdftex,
+  pdftitle={\@title}, 
+  pdfauthor={\@author},
+  pdfpagemode=UseOutlines,
+  bookmarks=true,
+  colorlinks=false]{hyperref}	% understand PDF refs
+\usepackage[all]{hypcap}             % must follow hyperref
+
+%
+% Need multiple indices
+%    http://mirror.math.ku.edu/tex-archive/macros/latex/contrib/splitindex/splitidx.pdf
+%
+\usepackage{splitidx}                % pkg for multiple indices
+\makeindex                           % we want an index
+\newindex[Student Index]{student}    % first index
+\newindex[Faculty Index]{faculty}    % second index
+
+
+%
+% Macros
+%
+\DefineShortVerb{\|}                 % makes |foo| a verbatim command
+\renewcommand{\ttdefault}{pcr}       % Allow the courier to be made bold
+
+\include{preamble}            % a bunch of macros for this report
+\include{preamble-calhoun}    % a bunch of macros for typesetting calhoun data
+
+%
+% Begin the document
+%
+\begin{document}
+
+\abstract{}                   % this is necessary, for some reason
+\NPSabstractWasPrintedtrue    % we don't want an abstract, though
+\NPScoverOld                  % variant cover
+
+%
+% Style the pages
+%
+\chead{\bf \leftmark}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+                             % some generated pages (e.g., TOC) revert to plain
+\fancypagestyle{plain}{      % so we turn 'plain' into 'fancy'
+ \fancyhead{}
+ \renewcommand{\footrulewidth}{1pt}
+ \renewcommand{\headrulewidth}{0pt}
+}
+
+
+%
+% Begin the content of the document
+%
+\include{sect-preface}                      % preface
+\includepdf[pages=-]{sect-frontmatter.pdf}  % INTRODUCTION
+\include{sect-toc}                          % toc
+\NPSbody                                    % start the body
+\include{thesis-dump}                       % ALL THE DATA
+\include{sect-indices}                      % indices
+\include{sect-backmatter}                   % backmatter
+
+\end{document}
+

@@ -1,0 +1,65 @@
+% custom macros for NPS Report
+
+\newcommand{\npsrsectdegree}[1]{
+  \newpage
+  \part*{\textsc{#1\xspace}}
+  \addcontentsline{toc}{part}{#1\xspace}
+  \renewcommand{\leftmark}{#1\xspace}
+  \thispagestyle{plain}
+  
+}
+
+% #1  long version - display on page
+% #2  short version - for TOC
+\newcommand{\npsrsectfield}[2]{
+  \newpage
+  \chapter*{\textsc{#1\xspace}}
+  \addcontentsline{toc}{chapter}{#2\xspace}
+  \thispagestyle{plain}
+  
+}
+
+\newcommand{\npsrtitle}[1]{
+  \addcontentsline{toc}{section}{#1\xspace}
+  \begin{center} \textsc{\textbf{#1\xspace}}\\           % end in npsrabstract
+}
+
+\newcommand{\npsrauthor}[2]{
+  \textbf{#1\xspace}\sindex[student]{#2}\xspace
+}
+
+\newcommand{\npsrauthorservice}[1]{
+  --- \textbf{#1\xspace}\\
+}
+
+\newcommand{\npsrdegree}[1]{
+  \textbf{#1\xspace}\xspace
+}
+
+\newcommand{\npsrdegreedate}[1]{
+  --- \textbf{#1\xspace}\\
+}
+
+\newcommand{\npsradvisorbegin}{
+  \textbf{Advisor: }
+}
+\newcommand{\npsradvisorsbegin}{
+  \textbf{Advisors: }
+}
+
+\newcommand{\npsradvisors}[2]{
+  \textbf{#1\xspace}\sindex[faculty]{#2}\xspace
+}
+
+\newcommand{\npsrabstract}[1]{
+  \\\end{center} #1 \vspace{5pt}\newline           % end centering of title info
+}
+
+\newcommand{\npsrkeywords}[1]{
+  \textsc{Keywords:} #1 \\
+}
+
+\newcommand{\npsrurl}[1]{
+  {\sc Available on Calhoun at:} \url{#1} \\ \\
+}
+

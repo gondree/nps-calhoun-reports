@@ -1,0 +1,21 @@
+% !TEX root = report.tex
+
+%
+% indices
+%
+
+
+% TOC blank line before index
+\addcontentsline{toc}{chapter}{}
+
+% student index
+\newpage
+\addcontentsline{toc}{section}{\textbf{Student Index}}
+\renewcommand{\leftmark}{STUDENT INDEX}
+\printindex[student]
+
+% faculty index
+\newpage
+\addcontentsline{toc}{section}{\textbf{Faculty Index}}
+\renewcommand{\leftmark}{FACULTY INDEX}
+\printindex[faculty]
