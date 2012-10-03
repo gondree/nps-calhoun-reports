@@ -1,0 +1,62 @@
+This is a demonstration report that mined data from Calhoun
+Author: Mark Gondree (Sept 2012)
+
+About
+------
+A set of python scripts that mine Calhoun (http://calhoun.nps.edu), the
+NPS DSpace repository, using its OAI-PMH interface. They collect metadata
+under the qualified Dublin Core namespace. This (unicode) data is then 
+converted into LaTeX-typeset ASCII data and  wrapped in generic 
+LaTeX-style macros.
+
+A LaTeX style file and set of macro definitions are included, which 
+typeset the metadata according to the "NPS Thesis Abstract" report style. 
+This is intended to be an automated replacement for the  laborious, 
+manual effort involved in generating the NPS Research Office's quarterly 
+"Thesis Abstract" reports.
+
+Directions
+----------
+
+(0) Install the 'pyoai' python library
+   tar xzvf third-party/pyoai-2.4.4.tar.gz
+   cd pyoai-*
+   python setup.py install
+
+(1) Get data by contacting Calhoun using the calhoun_scrape.py script. See:
+  python calhousn_scrape.py --help
+
+(2) Modify files that are report-specific. In particular:
+  - preamble.tex          Edit the date, report number, etc
+  - sec-fronmatter.pdf    Generate some new content for the report
+
+(3) Generate the report using the provided Makefile and latex templates:
+  make report.pdf
+
+
+Example
+-------
+  python calhoun_scrape.py --store=records.pickle
+                           --output=thesis-dump.tex
+                           --from=01/01/01
+                           --grad=2012-09
+
+This will contact Calhoun, grab all metadata uploaded since Jan 1, 2001,
+store this as records.pickle, process the records for Thesis associated
+with a 2012-09 graduation date, and output the data to thesis-dump.tex.
+You can then build the full report using the 'make report.pdf' command.
+
+In future invocations, to avoid re-contacting calhoun for the records,
+you could just invoke:
+
+  python calhoun_scrape.py --input=records.pickle ...
+
+
+Dependencies
+------------
+ - Infrae's pyoai library
+   http://pypi.python.org/pypi/pyoai
+
+ - (A modified version of) Peter Troeger's python latex codec
+   http://pypi.python.org/pypi/latexcodec
+
