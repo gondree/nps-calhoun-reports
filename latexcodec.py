@@ -40,7 +40,7 @@ utf82latex={
 187:'\\guillemotright ', 	# character »
 188:'\\textonequarter', 	# character ¼
 189:'\\textonehalf ', 	# character ½
-190:'\\textthreequarter s', 	# character ¾
+190:'\\textthreequarter', 	# character ¾
 191:'\\textquestiondown ', 	# character ¿
 192:'\\`A', 	# character À
 193:"\\'A", 	# character Á
@@ -462,7 +462,7 @@ utf82latex={
 8212:'\\textemdash', 	# character —
 8214:'\\textbardbl', 	# character ‖
 8216:'\\textquoteleft', 	# character ‘
-8217:'\\textquoteright', 	# character ’
+8217:'\\textquoteright ', 	# character ’
 8218:'\\quotesinglbase', 	# character ‚
 8220:'\\textquotedblleft', 	# character “
 8221:'\\textquotedblright', 	# character ”
@@ -506,8 +506,7 @@ utf82latex={
 9251:'\\textvisiblespace', 	# character ␣
 9702:'\\textopenbullet', 	# character ◦
 9711:'\\textbigcircle', 	# character ◯
-9834:'\\textmusicalnote'	# character ♪
-
+9834:'\\textmusicalnote',	# character ♪
 }
 
 latex2utf8=dict((v,k) for k, v in utf82latex.iteritems())
@@ -520,6 +519,8 @@ class LatexCodec(codecs.Codec):
 		for ch in input:
 			if ord(ch) in utf82latex:
 				result+=utf82latex[ord(ch)]
+			elif ord(ch) > 9834:
+				result+='---'
 			else:
 				result+=ch
 		return result, len(input)				

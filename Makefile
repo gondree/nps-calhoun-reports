@@ -1,8 +1,7 @@
-#
-# The makefile is used on MacOS and Unix to compile your LaTeX files in to PDF.
-#
-.SUFFIXES: .tex .pdf 
+.PHONY: all clean distclean
+.PHONY: backup compare install-diff
 
+.SUFFIXES: .tex .pdf 
 NPSREPORT=npsreport
 PACKAGES=packages:packages/unicode:packages/unicode/data
 LATEX=pdflatex
@@ -51,33 +50,5 @@ distclean: clean
 	$(RM) revised*.pdf revised*.tex *.idx *.ilg *.ind
 	$(RM) *.pyc
 
-#
-# Performs a latexdiff on the project and the backup
-# Then, build the pdf of the diff
-#
-compare:
-	for file in $(ALL:.pdf=.tex); do \
-	    $(LATEXDIFF) --flatten backup/$$file $$file > revised_$$file; \
-	done
-	$(MAKE) $(ALL:%=revised_%)
 
-#
-# Creates a backup tarball of the project
-#
-backup: EXCLUDE=--exclude=packages --exclude=npsreport --exclude=doc
-backup: TARBALL=backup_`date "+%Y%m%d%s"`.tar
-backup:
-	mkdir -p backup
-	tar cf $(TARBALL) --exclude=backup $(EXCLUDE) *
-	mkdir -p backup
-	mv $(TARBALL) backup
-	cd backup; tar xf $(TARBALL)
 
-#
-# Installs the latexdiff package
-#
-install-diff:
-	cd packages/latexdiff; make install
-
-.PHONY: all clean distclean
-.PHONY: backup compare install-diff

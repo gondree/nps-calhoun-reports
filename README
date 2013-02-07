@@ -1,4 +1,4 @@
-This is a demonstration report that mined data from Calhoun
+This is a demonstration report that mines data from Calhoun.
 Author: Mark Gondree (Sept 2012)
 
 About
@@ -17,14 +17,29 @@ manual effort involved in generating the NPS Research Office's quarterly
 
 Directions
 ----------
+(0) Install the python support libraries.
 
-(0) Install the 'pyoai' python library
-   tar xzvf third-party/pyoai-2.4.4.tar.gz
-   cd pyoai-*
-   python setup.py install
+   For example, on Ubuntu 12.04 (precise) with Python-2.7.3:
+    Install pdflatex and extras
+    	sudo apt-get install texlive texlive-latex-extra
+    Install dependencies
+        sudo apt-get install python-dev libxml2-dev libxslt-dev
+    Install setuptools (http://pypi.python.org/pypi/setuptools), for example:
+        wget http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg
+        sudo sh setuptools-0.6c11-py2.7.egg
+    Install lxml (http://lxml.de/), for example:
+        sudo easy_install lxml
+    Install pytz (http://pytz.sourceforge.net/), for example:
+        sudo easy_install --upgrade pytz
+    Install pyoai (http://pypi.python.org/pypi/pyoai), for example:
+        tar xzvf third-party/pyoai-2.4.4.tar.gz
+        cd pyoai-*
+        sudo python setup.py install
 
-(1) Get data by contacting Calhoun using the calhoun_scrape.py script. See:
-  python calhousn_scrape.py --help
+(1) Get data by contacting Calhoun using the calhoun_scrape.py script.
+
+   For usage, see:
+        python calhoun_scrape.py --help
 
 (2) Modify files that are report-specific. In particular:
   - preamble.tex          Edit the date, report number, etc
@@ -36,11 +51,10 @@ Directions
 
 Example
 -------
-  python calhoun_scrape.py --store=records.pickle
-                           --output=thesis-dump.tex
-                           --from=01/01/01
+  python calhoun_scrape.py --store=records.pickle    \
+                           --output=thesis-dump.tex  \
+                           --from=01/01/01           \
                            --grad=2012-09
-
 This will contact Calhoun, grab all metadata uploaded since Jan 1, 2001,
 store this as records.pickle, process the records for Thesis associated
 with a 2012-09 graduation date, and output the data to thesis-dump.tex.
@@ -52,11 +66,10 @@ you could just invoke:
   python calhoun_scrape.py --input=records.pickle ...
 
 
-Dependencies
-------------
+Major Dependencies
+------------------
  - Infrae's pyoai library
    http://pypi.python.org/pypi/pyoai
 
  - (A modified version of) Peter Troeger's python latex codec
    http://pypi.python.org/pypi/latexcodec
-

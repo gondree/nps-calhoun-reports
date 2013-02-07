@@ -5,12 +5,13 @@ Scrape metadata from NPS DSpace repository, Calhoun (http://calhoun.nps.edu)
 
 """
 from datetime import date, timedelta, datetime
+from optparse import OptionParser
 from oaipmh.client import Client
 from oaipmh.metadata import MetadataRegistry, MetadataReader, oai_dc_reader
-from optparse import OptionParser
 import os, sys, pickle, pytz, re, urllib2
 import codecs, latexcodec
 import unittest
+
 
 ###############################################################################
 #
@@ -67,19 +68,19 @@ qdc_reader = MetadataReader(
 # NPS Report LaTeX macro constants
 #   These are defined in preamble-calhoun.tex
 #
-NPSR = dict({'first-part':"\\npsrsectdegree{",
-             'second-part':"\\npsrsectfield{",
-             'title':"\\npsrtitle{",
-             'creator':"\\npsrauthor{",
-             'service':"\\npsrauthorservice{",
-             'degree':"\\npsrdegree{",
-             'degree-date':"\\npsrdegreedate{",
-             'advisor':"\\npsradvisors{",
-             'advisor-start':"\\npsradvisorbegin{}",
-             'advisors-start':"\\npsradvisorsbegin{}",
-             'description':"\\npsrabstract{",
-             'subject':"\\npsrkeywords{",
-             'url':"\\npsrurl{"
+NPSR = dict({'first-part':'\\npsrsectdegree{',
+             'second-part':'\\npsrsectfield{',
+             'title':'\\npsrtitle{',
+             'creator':'\\npsrauthor{',
+             'service':'\\npsrauthorservice{',
+             'degree':'\\npsrdegree{',
+             'degree-date':'\\npsrdegreedate{',
+             'advisor':'\\npsradvisors{',
+             'advisor-start':'\\npsradvisorbegin{}',
+             'advisors-start':'\\npsradvisorsbegin{}',
+             'description':'\\npsrabstract{',
+             'subject':'\\npsrkeywords{',
+             'url':'\\npsrurl{'
        })
 
 ###############################################################################
@@ -205,7 +206,7 @@ def clean_encode(v):
     but, alas, sometimes they are. We need to clean them out.
     We also encode the unicode as latex.
     """
-    return v.replace(BOM,'').encode("latin1").encode("latex")
+    return v.replace(BOM,'').encode("latex")
 
 
 def parse_first_last(s):
@@ -408,11 +409,18 @@ def latexify_theses():
     str = ''
 
     for r in RECORDS:
-        v = clean_encode(r['type'][0])
+        v = r['type']
+        if not v:
+            continue
+        v = clean_encode(v[0])
         if v and options.type and v != options.type:
             print "%% %s is not %s" % (r['handle'], options.type)
             continue
-        v = clean_encode(r['degree-date'][0]) 
+
+        v = r['degree-date']
+        if not v:
+            continue
+        v = clean_encode(v[0]) 
         if v and options.grad and v != options.grad:
             print "%% %s is from %s, not %s" % (r['handle'], v, options.grad)
             continue
@@ -554,6 +562,7 @@ def scrape(start=START, end=END, set=SET_THESIS, type='Thesis'):
     records = client.listRecords(metadataPrefix='qdc',
                                  from_=start, until=end, set=set)
     for (h, m, a) in records:
+        print h, m, a
         if not m:
             sys.stderr.write("o")
             continue
